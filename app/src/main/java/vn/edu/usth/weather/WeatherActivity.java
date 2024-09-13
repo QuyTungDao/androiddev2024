@@ -4,28 +4,39 @@ import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import vn.edu.usth.weather.databinding.ActivityMainBinding;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class WeatherActivity extends AppCompatActivity {
     private static final String TAG = "WeatherActivity";
+    private ViewPager2 viewpager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_weather);
+
+        viewpager2 = findViewById(R.id.vp1);
+        WeatherPagerAdapter WeatherPagerAdapter = new WeatherPagerAdapter(this);
+        WeatherPagerAdapter.addFragment(new WeatherAndForecastFragment(),"Paris");
+        WeatherPagerAdapter.addFragment(new WeatherAndForecastFragment(),"Tokyo");
+        WeatherPagerAdapter.addFragment(new WeatherAndForecastFragment(),"London");
+        viewpager2.setAdapter(WeatherPagerAdapter);
 
         Log.i(TAG, "ON_CREATE");
 
