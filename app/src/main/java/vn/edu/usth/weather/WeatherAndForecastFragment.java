@@ -1,67 +1,56 @@
 package vn.edu.usth.weather;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WeatherAndForecastFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 public class WeatherAndForecastFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private String city;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public WeatherAndForecastFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WeatherAndForecastFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WeatherAndForecastFragment newInstance(String param1, String param2) {
+    public static WeatherAndForecastFragment newInstance(String city) {
         WeatherAndForecastFragment fragment = new WeatherAndForecastFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString("city", city);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            city = getArguments().getString("city");
         }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weather_and_forecast, container, false);
-        getChildFragmentManager().beginTransaction().add(R.id.container,new ForecastFragment()).commit();
-        getChildFragmentManager().beginTransaction().replace(R.id.forecastFragment,new WeatherFragment()).commit();
+
+        // Thêm WeatherFragment và ForecastFragment vào đúng FrameLayout
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Thêm WeatherFragment
+        WeatherFragment weatherFragment = new WeatherFragment();
+        fragmentTransaction.add(R.id.container, weatherFragment);
+
+        // Thêm ForecastFragment
+        ForecastFragment forecastFragment = new ForecastFragment();
+        fragmentTransaction.add(R.id.forecastFragment, forecastFragment);
+
+        fragmentTransaction.commit();
+
         return view;
     }
 }
