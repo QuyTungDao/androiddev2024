@@ -85,7 +85,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:gravity="center|start"
-            android:text="Wednesday"
+            android:text="@string/Wednesday"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -117,7 +117,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:gravity="center|start"
-            android:text="Thursay"
+            android:text="@string/thursday"
             android:textColor="@color/black"
             android:textSize="20sp" />
         <ImageView
