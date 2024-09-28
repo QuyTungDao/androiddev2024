@@ -28,6 +28,6 @@ public class WeatherPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3; // Số lượng tab: Paris, Tokyo, London
+        return 3;
     }
 }
