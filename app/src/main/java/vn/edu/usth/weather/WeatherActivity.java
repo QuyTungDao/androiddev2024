@@ -1,7 +1,10 @@
 package vn.edu.usth.weather;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,7 +22,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class WeatherActivity extends AppCompatActivity {
 
     private Handler handler;
-//    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class WeatherActivity extends AppCompatActivity {
         ViewPager2 viewPager = findViewById(R.id.vp1);
         WeatherPagerAdapter pagerAdapter = new WeatherPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+
+//        MediaPlayer music = MediaPlayer.create(WeatherActivity.this,R.raw.music);
+//        music.start();
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
@@ -49,10 +54,6 @@ public class WeatherActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         handler = new Handler(Looper.getMainLooper());
-
-//        mp = MediaPlayer.create(this, R.raw.music);
-//        mp.setLooping(true);
-//        mp.start();
     }
 
     @Override
@@ -65,74 +66,73 @@ public class WeatherActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            simulateNetworkRequest();
+            requestNetworkByAsyncTask();
             return true;
         } else if (id == R.id.action_settings) {
             Intent intent = new Intent(this, PrefActivity.class);
             startActivity(intent);
             return true;
-//        } else if (id == R.id.action_playButton) {
-//            if (mp != null) {
-//                if (mp.isPlaying()) {
-//                    mp.pause();
-//                    item.setIcon(R.drawable.ic_play);
-//                    item.setTitle("Play");
-//                } else {
-//                    mp.start();
-//                    item.setIcon(R.drawable.ic_play);
-//                    item.setTitle("Pause");
-//                }
-//
-//            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-        public void simulateNetworkRequest(){
-            Toast.makeText(this,"Refreshing...",Toast.LENGTH_SHORT).show();
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try{
-                        Thread.sleep(2000);
-                    }catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(WeatherActivity.this,"Refresh complete!!!",Toast.LENGTH_SHORT).show();
-                        }
-                    });
+    private void requestNetworkByAsyncTask() {
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<String, Integer, Bitmap> task = new AsyncTask<String, Integer, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(String... strings) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            }).start();
-        }
+                return null;
+            }
+
+            protected void onPostExecute(Bitmap bitmap) {
+                Toast.makeText(getApplicationContext(),
+                        "Request Network....", Toast.LENGTH_SHORT).show();
+            }
+        };
+        task.execute();
+    }
+
+
+//        public void simulateNetworkRequest(){
+//            Toast.makeText(this,"Refreshing...",Toast.LENGTH_SHORT).show();
+//
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try{
+//                        Thread.sleep(2000);
+//                    }catch (InterruptedException e){
+//                        e.printStackTrace();
+//                    }
+//
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(WeatherActivity.this,"Refresh complete!!!",Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+//            }).start();
+//        }
 
         @Override
         protected void onPause () {
             super.onPause();
-//            if (mp != null && mp.isPlaying()) {
-//                mp.pause();
-//            }
         }
 
         @Override
         protected void onResume () {
             super.onResume();
-//            if (mp != null) {
-//                mp.start();
-//            }
         }
 
         @Override
         protected void onDestroy () {
             super.onDestroy();
-//            if (mp != null) {
-//                mp.release();
-//                mp = null;
-//            }
         }
     }
 

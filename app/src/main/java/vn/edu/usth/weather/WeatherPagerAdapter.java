@@ -18,9 +18,9 @@ public class WeatherPagerAdapter extends FragmentStateAdapter {
             case 0:
                 return WeatherAndForecastFragment.newInstance("Paris");
             case 1:
-                return WeatherAndForecastFragment.newInstance("Tokyo");
+                return new ForecastFragment();
             case 2:
-                return WeatherAndForecastFragment.newInstance("London");
+                return new WeatherFragment();
             default:
                 return WeatherAndForecastFragment.newInstance("Paris");
         }
