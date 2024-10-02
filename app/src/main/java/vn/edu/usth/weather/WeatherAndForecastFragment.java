@@ -37,15 +37,12 @@ public class WeatherAndForecastFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weather_and_forecast, container, false);
 
-        // Thêm WeatherFragment và ForecastFragment vào đúng FrameLayout
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        // Thêm WeatherFragment
         WeatherFragment weatherFragment = new WeatherFragment();
         fragmentTransaction.add(R.id.container, weatherFragment);
 
-        // Thêm ForecastFragment
         ForecastFragment forecastFragment = new ForecastFragment();
         fragmentTransaction.add(R.id.forecastFragment, forecastFragment);
 
